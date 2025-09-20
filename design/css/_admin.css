@@ -1,0 +1,310 @@
+:root {
+    --phoenix-primary: #FF6B35;
+    --phoenix-secondary: #F7931E;
+    --phoenix-accent: #FFD23F;
+    --phoenix-dark: #2C1810;
+    --phoenix-darker: #1A0F0A;
+    --phoenix-light: #FFF8F0;
+    --phoenix-shadow: rgba(255, 107, 53, 0.3);
+    --phoenix-glow: rgba(255, 107, 53, 0.6);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--phoenix-darker) 0%, var(--phoenix-dark) 50%, #8B2635 100%);
+    min-height: 100vh;
+    color: var(--phoenix-light);
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, rgba(255, 107, 53, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+}
+
+.phoenix-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+}
+
+.phoenix-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 3.5rem;
+    font-weight: 900;
+    background: linear-gradient(45deg, var(--phoenix-primary), var(--phoenix-accent), var(--phoenix-secondary));
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: phoenixGlow 3s ease-in-out infinite alternate, gradientShift 4s ease-in-out infinite;
+    text-shadow: 0 0 30px var(--phoenix-glow);
+    margin-bottom: 0.5rem;
+}
+
+.phoenix-subtitle {
+    font-size: 1.2rem;
+    color: var(--phoenix-accent);
+    opacity: 0.8;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.phoenix-icon {
+    font-size: 4rem;
+    color: var(--phoenix-primary);
+    margin-bottom: 1rem;
+    animation: phoenixRise 2s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 20px var(--phoenix-glow));
+}
+
+.phoenix-card {
+    background: rgba(44, 24, 16, 0.8);
+    border-radius: 20px;
+    border: 2px solid rgba(255, 107, 53, 0.3);
+    backdrop-filter: blur(20px);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 107, 53, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.phoenix-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.phoenix-card:hover::before {
+    left: 100%;
+}
+
+.phoenix-card:hover {
+    border-color: var(--phoenix-primary);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px var(--phoenix-primary),
+        0 0 30px var(--phoenix-shadow);
+    transform: translateY(-5px);
+}
+
+.phoenix-table {
+    background: transparent;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.phoenix-table thead {
+    background: linear-gradient(135deg, var(--phoenix-primary), var(--phoenix-secondary));
+}
+
+.phoenix-table thead th {
+    border: none;
+    color: black;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 1.5rem 1rem;
+    font-size: 0.9rem;
+    position: relative;
+}
+
+.phoenix-table tbody tr {
+    background: rgba(44, 24, 16, 0.6);
+    border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+    transition: all 0.3s ease;
+}
+
+.phoenix-table tbody tr:hover {
+    background: rgba(255, 107, 53, 0.15);
+    transform: scale(1.01);
+}
+
+.phoenix-table td {
+    border: none;
+    padding: 1.2rem 1rem;
+    color: var(--phoenix-light);
+    font-weight: 400;
+    vertical-align: middle;
+    background: transparent;
+}
+
+.phoenix-btn {
+    border: none;
+    border-radius: 25px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    font-size: 0.8rem;
+}
+
+.phoenix-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%);
+}
+
+.phoenix-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.phoenix-btn-success {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    color: white;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.phoenix-btn-success:hover {
+    background: linear-gradient(45deg, #20c997, #28a745);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    transform: translateY(-2px);
+}
+
+.phoenix-btn-danger {
+    background: linear-gradient(45deg, #dc3545, #fd7e14);
+    color: white;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+.phoenix-btn-danger:hover {
+    background: linear-gradient(45deg, #fd7e14, #dc3545);
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+    transform: translateY(-2px);
+}
+
+.phoenix-alert {
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(247, 147, 30, 0.2));
+    border: 2px solid var(--phoenix-primary);
+    border-radius: 15px;
+    color: var(--phoenix-light);
+    padding: 2rem;
+    text-align: center;
+    font-size: 1.1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.phoenix-alert::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+    animation: rotate 4s linear infinite;
+}
+
+.phoenix-alert-content {
+    position: relative;
+    z-index: 1;
+}
+
+.message-cell {
+    max-width: 300px;
+    word-wrap: break-word;
+    line-height: 1.5;
+}
+
+.year-badge {
+    background: linear-gradient(45deg, var(--phoenix-secondary), var(--phoenix-accent));
+    color: var(--phoenix-darker);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.anonymous-badge {
+    background: linear-gradient(45deg, #6c757d, #495057);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+@keyframes phoenixGlow {
+    0% { text-shadow: 0 0 20px var(--phoenix-glow); }
+    100% { text-shadow: 0 0 30px var(--phoenix-glow), 0 0 40px var(--phoenix-primary); }
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes phoenixRise {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-10px); }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.status-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--phoenix-primary);
+    animation: pulse 2s infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 var(--phoenix-glow); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 107, 53, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
+}
+
+@media (max-width: 768px) {
+    .phoenix-title { font-size: 2.5rem; }
+    .phoenix-icon { font-size: 3rem; }
+    .container { padding: 1rem; }
+    .phoenix-table { font-size: 0.9rem; }
+    .phoenix-btn { padding: 0.4rem 1rem; font-size: 0.7rem; }
+}

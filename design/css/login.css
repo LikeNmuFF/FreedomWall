@@ -1,0 +1,106 @@
+:root {
+    --phoenix-primary: #FF6B35;
+    --phoenix-secondary: #F7931E;
+    --phoenix-accent: #FFD23F;
+    --phoenix-dark: #2C1810;
+    --phoenix-darker: #1A0F0A;
+    --phoenix-light: #FFF8F0;
+    --phoenix-shadow: rgba(255, 107, 53, 0.3);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--phoenix-darker) 0%, var(--phoenix-dark) 50%, #8B2635 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--phoenix-light);
+}
+
+.phoenix-card {
+    background: rgba(44, 24, 16, 0.85);
+    border: 2px solid rgba(255, 107, 53, 0.3);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    max-width: 420px;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1s ease;
+}
+
+.phoenix-card.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.phoenix-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 2rem;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, var(--phoenix-primary), var(--phoenix-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.typing {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.3rem;
+    color: var(--phoenix-accent);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid var(--phoenix-primary);
+    width: 0;
+    margin: 0 auto 1.5rem;
+    animation: typing 3s steps(30, end) forwards, blink 0.7s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 18ch; }
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+.form-control {
+    background: rgba(44,24,16,0.6);
+    border: 2px solid rgba(255,107,53,0.3);
+    border-radius: 12px;
+    color: var(--phoenix-light);
+}
+
+.form-control:focus {
+    border-color: var(--phoenix-primary);
+    box-shadow: 0 0 0 0.2rem var(--phoenix-shadow);
+}
+
+.phoenix-btn {
+    background: linear-gradient(45deg, var(--phoenix-primary), var(--phoenix-secondary));
+    border: none;
+    border-radius: 25px;
+    padding: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fff;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.phoenix-btn:hover {
+    background: linear-gradient(45deg, var(--phoenix-secondary), var(--phoenix-accent));
+    box-shadow: 0 8px 20px var(--phoenix-shadow);
+}
+
+.alert {
+    border-radius: 12px;
+    text-align: center;
+}
