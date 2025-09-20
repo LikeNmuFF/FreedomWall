@@ -430,7 +430,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container py-5">
         <div class="phoenix-header">
             <div class="phoenix-icon">
-                <img src="assets/cictt.png" alt="Phoenix Logo" class="phoenix-logo">
+                <img src="assets/web.png" alt="Phoenix Logo" class="phoenix-logo">
             </div>
             <h1 class="phoenix-title">CICTT PHOENIX</h1>
             <p class="phoenix-subtitle">FREEDOM WALL</p>
