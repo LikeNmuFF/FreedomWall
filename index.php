@@ -2,28 +2,41 @@
 session_start();
 include("includes/db.php");
 
-// Prevent undefined errors
-$name = $_POST['name'] ?? '';
+// Set default values for form fields, or clear them after a success
+$name = '';
 $year = $_POST['year'] ?? '';
 $course = $_POST['course'] ?? '';
 $anonymous = isset($_POST['anonymous']) ? 1 : 0;
-$message = $_POST['message'] ?? '';
+$message = '';
+
+$success = '';
+$error = '';
 
 // Handle submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Spam protection: 60 seconds
     if (isset($_SESSION['last_post_time']) && (time() - $_SESSION['last_post_time'] < 60)) {
         $error = " Please wait 60 seconds before posting again.";
+        // Retain form values on error
+        $name = $_POST['name'] ?? '';
+        $year = $_POST['year'] ?? '';
+        $course = $_POST['course'] ?? '';
+        $anonymous = isset($_POST['anonymous']) ? 1 : 0;
+        $message = $_POST['message'] ?? '';
     } else {
         // Validate inputs
+        $name = $_POST['name'] ?? ''; // Re-set name for validation
+        $message = $_POST['message'] ?? ''; // Re-set message for validation
+        $message_length = strlen($message);
+
         if ($anonymous && !empty($name)) {
             $error = "❌ You cannot enter a name if posting anonymously.";
         } elseif (!$anonymous && empty($name)) {
             $error = "❌ Please enter your name or select anonymous.";
         } elseif (strlen($name) > 10) {
             $error = "❌ Name must be 10 characters or less.";
-        } elseif (strlen($message) > 100) {
-            $error = "❌ Message must be 100 characters or less.";
+        } elseif ($message_length > 50) {
+            $error = "❌ Message must be 50 characters or less.";
         } else {
             // Insert into DB
             $stmt = $conn->prepare("INSERT INTO messages (student_name, year_level, course, message, is_anonymous, created_at, approved) VALUES (?, ?, ?, ?, ?, NOW(), 0)");
@@ -31,13 +44,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($stmt->execute()) {
                 $_SESSION['last_post_time'] = time();
-                $success = "Message submitted! Pending admin approval.";
+                $_SESSION['success_message'] = "Message submitted! Pending admin approval.";
+                // Redirect after successful submission
+                header("Location: {$_SERVER['PHP_SELF']}");
+                exit();
             } else {
                 $error = "⚠️ Error saving message. Please try again.";
             }
             $stmt->close();
         }
     }
+}
+
+// Check for and display a success message from the session
+if (isset($_SESSION['success_message'])) {
+    $success = $_SESSION['success_message'];
+    unset($_SESSION['success_message']); // Clear the message after displaying it
 }
 ?>
 <!DOCTYPE html>
@@ -46,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phoenix Message Portal</title>
-   
+    
     <style>
         /* All CSS is now embedded here to ensure offline functionality */
         :root {
@@ -420,8 +442,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding-right: 3rem;
         }
         .phoenix-logo {
-            width: 10%;
-            height: 10%;
+            width: 50%;
+            height: 50%;
             object-fit: contain;
         }
     </style>
@@ -468,14 +490,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 Your Name (max 10 chars)
                             </label>
                             <input type="text" name="name" id="name" maxlength="10" 
-                                   class="form-control" 
-                                   placeholder="Enter your name or check anonymous below"
-                                   value="<?php echo htmlspecialchars($name); ?>">
+                                class="form-control" 
+                                placeholder="Enter your name or check anonymous below"
+                                value="<?php echo htmlspecialchars($name); ?>">
                         </div>
 
                         <div class="form-check">
                             <input type="checkbox" name="anonymous" id="anonymous" class="form-check-input"
-                                   <?php echo $anonymous ? 'checked' : ''; ?>>
+                                <?php echo $anonymous ? 'checked' : ''; ?>>
                             <label for="anonymous" class="form-check-label">
                                 
                                 Post as Anonymous
@@ -524,13 +546,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="form-group">
                             <label class="form-label">
                                 <i class="me-2">💬</i>
-                                Your Message (max 100 chars)
+                                Your Message (max 50 chars)
                             </label>
-                            <textarea name="message" id="message" rows="4" maxlength="100" 
-                                      class="form-control" required 
-                                      placeholder="Share your thoughts, ideas, or feedback..."><?php echo htmlspecialchars($message); ?></textarea>
+                            <textarea name="message" id="message" rows="4" maxlength="50" 
+                                    class="form-control" required 
+                                    placeholder="Share your thoughts, ideas, or feedback..."><?php echo htmlspecialchars($message); ?></textarea>
                             <div class="counter">
-                                <span id="msgCount">0</span>/100 characters
+                                <span id="msgCount">0</span>/50 characters
                             </div>
                         </div>
 
@@ -551,6 +573,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         const messageField = document.getElementById("message");
         const msgCount = document.getElementById("msgCount");
         const form = document.getElementById("postForm");
+        const maxMessageLength = 50;
 
         // Initialize character count
         msgCount.textContent = messageField.value.length;
@@ -581,15 +604,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             msgCount.parentElement.classList.remove("warning", "danger");
             
-            if (length >= 90) {
+            if (length >= maxMessageLength - 10) {
                 msgCount.parentElement.classList.add("danger");
-            } else if (length >= 75) {
+            } else if (length >= maxMessageLength - 20) {
                 msgCount.parentElement.classList.add("warning");
             }
             
-            if (length >= 100) {
-                this.value = this.value.substring(0, 100);
-                msgCount.textContent = 100;
+            if (length > maxMessageLength) {
+                this.value = this.value.substring(0, maxMessageLength);
+                msgCount.textContent = maxMessageLength;
             }
         });
 
@@ -618,6 +641,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 setTimeout(() => {
                     messageField.style.borderColor = "";
                 }, 2000);
+                hasError = true;
+            }
+            
+            if (message.length > maxMessageLength) {
+                e.preventDefault();
+                messageField.focus();
+                alert(`Message must be ${maxMessageLength} characters or less.`);
                 hasError = true;
             }
             

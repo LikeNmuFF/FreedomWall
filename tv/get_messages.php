@@ -6,7 +6,7 @@ include("../includes/db.php");
 $sql = "SELECT student_name, year_level, course, message, is_anonymous, created_at 
         FROM messages 
         WHERE status = 'approved' 
-        AND created_at >= NOW() - INTERVAL 5 HOUR
+        AND created_at >= NOW() - INTERVAL 3 HOUR
         ORDER BY created_at DESC";
 $result = $conn->query($sql);
 
