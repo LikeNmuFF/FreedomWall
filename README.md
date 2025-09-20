@@ -5,10 +5,10 @@ A student-friendly message wall with admin approval system.
 ## 📸 Screenshots
 
 ### 🔑 Admin Approval Center
-![Admin Approval Center](UI/approval_center.png)
+![Admin Approval Center](UI/approval_center_with_message.png)
 
 ### ✅ No Pending Messages
-![No Pending Messages](UI/approval_center_clear.png)
+![No Pending Messages](UI/approval_center.png)
 
 ### 📝 Freedom Wall with Messages
 ![Freedom Wall Messages](UI/FreedomWall_wth_messages.png)
