@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 include("../includes/db.php");
 
-// Fetch approved messages within last 5 hours
+// Fetch approved messages within last 3 hours
 $sql = "SELECT student_name, year_level, course, message, is_anonymous, created_at 
         FROM messages 
         WHERE status = 'approved' 
