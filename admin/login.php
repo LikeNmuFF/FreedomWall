@@ -33,9 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Phoenix Admin Login</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../design/css/login_bootstrap.min.css">
+    <link rel="stylesheet" href="../design/css/login_all.min.css">
+    <link href="../design/css/login_css2.css" rel="stylesheet">
     <link rel="stylesheet" href="../design/css/login.css">
     <script src="../design/js/login.js"></script>
 </head>
@@ -50,14 +50,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <form method="POST">
             <div class="mb-3">
-                <label class="form-label"><i class="fas fa-user"></i> Username</label>
+                <label class="form-label"></i> Username</label>
                 <input type="text" name="username" class="form-control" required autofocus>
             </div>
             <div class="mb-3">
-                <label class="form-label"><i class="fas fa-lock"></i> Password</label>
+                <label class="form-label"></i> Password</label>
                 <input type="password" name="password" class="form-control" required>
             </div>
-            <button type="submit" class="phoenix-btn"><i class="fas fa-sign-in-alt me-2"></i>Login</button>
+            <button type="submit" class="phoenix-btn"><i></i>Login</button>
         </form>
     </div>
 

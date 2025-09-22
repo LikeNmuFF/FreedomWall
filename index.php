@@ -56,10 +56,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Check for and display a success message from the session
+
 if (isset($_SESSION['success_message'])) {
     $success = $_SESSION['success_message'];
-    unset($_SESSION['success_message']); // Clear the message after displaying it
+    unset($_SESSION['success_message']);
 }
 ?>
 <!DOCTYPE html>
@@ -70,7 +70,7 @@ if (isset($_SESSION['success_message'])) {
     <title>Phoenix Message Portal</title>
     
     <style>
-        /* All CSS is now embedded here to ensure offline functionality */
+       
         :root {
             --phoenix-primary: #FF6B35;
             --phoenix-secondary: #F7931E;
