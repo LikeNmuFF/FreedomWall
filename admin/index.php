@@ -31,7 +31,7 @@ $result = $conn->query("SELECT * FROM messages WHERE status='pending' ORDER BY c
             <div class="phoenix-icon">
                 <img src="../assets/admin.cictt.png" alt="Phoenix Logo" class="phoenix-logo">
             </div>
-            <h1 class="phoenix-title">PHOENIX</h1>
+            <h1 class="phoenix-title">CICTT PHOENIX</h1>
             <p class="phoenix-subtitle">Admin Approval Center</p>
         </div>
 

@@ -50,11 +50,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <form method="POST">
             <div class="mb-3">
-                <label class="form-label"></i> Username</label>
+                <label class="form-label"></i>Username:</label>
                 <input type="text" name="username" class="form-control" required autofocus>
             </div>
             <div class="mb-3">
-                <label class="form-label"></i> Password</label>
+                <label class="form-label"></i> Password:</label>
                 <input type="password" name="password" class="form-control" required>
             </div>
             <button type="submit" class="phoenix-btn"><i></i>Login</button>
