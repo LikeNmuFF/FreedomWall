@@ -16,7 +16,6 @@ $count = count($messages);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="refresh" content="5">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../design/css/tv.css">
@@ -25,11 +24,13 @@ $count = count($messages);
 <body>
     <div class="container">
         <header class="header">
-            <div class="logo-container">
+            <div class="header-left">
                 <img src="../assets/cictt.png" alt="Phoenix Logo" class="phoenix-logo">
+                <div class="title-group">
+                    <h1 class="phoenix-title">Phoenix Freedom Wall</h1>
+                    <p class="phoenix-subtitle">Live Message Display</p>
+                </div>
             </div>
-            <h1 class="phoenix-title">Phoenix Freedom Wall</h1>
-            <p class="phoenix-subtitle">Live Message Display</p>
         </header>
 
         <main id="messages-container" class="messages-container">
@@ -66,9 +67,9 @@ $count = count($messages);
         const messagesPerPage = () => {
             const containerWidth = messagesContainer.offsetWidth;
             const containerHeight = messagesContainer.offsetHeight;
-            const gap = 16;
-            const minCardWidth = 250; 
-            const minCardHeight = 100;
+            const gap = 24; // Increased gap
+            const minCardWidth = 320; // Increased card width
+            const minCardHeight = 120; // Increased card height
             
             const numColumns = Math.max(1, Math.floor(containerWidth / (minCardWidth + gap)));
             const numRows = Math.max(1, Math.floor(containerHeight / (minCardHeight + gap)));
@@ -77,7 +78,7 @@ $count = count($messages);
         };
         
         const renderMessages = (messagesToDisplay) => {
-            if (messagesToDisplay.length === 0) {
+            if (messagesToDisplay.length === 0 && allMessages.length === 0) {
                 messagesContainer.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-icon"></div>
@@ -95,7 +96,7 @@ $count = count($messages);
             messagesToDisplay.forEach((message, index) => {
                 const isAnonymous = message.is_anonymous == 1;
                 const nameHtml = isAnonymous ?
-                    `<span class="anonymous-badge"><i class="fas fa-user-secret"></i> Anon</span>` :
+                    `<span class="anonymous-badge">Anon</span>` :
                     `<span class="sender-name" title="${htmlspecialchars(message.student_name)}">${htmlspecialchars(message.student_name)}</span>`;
                 
                 const courseHtml = message.course ?
@@ -103,28 +104,26 @@ $count = count($messages);
                     '';
 
                 const timeDiff = Math.floor((new Date().getTime() - new Date(message.created_at).getTime()) / 1000);
-                const timeHtml = timeDiff < 60 ? 'now' : 
-                                 (timeDiff < 3600 ? `${Math.floor(timeDiff / 60)}m` : 
-                                 `${Math.floor(timeDiff / 3600)}h`);
+                const timeHtml = timeDiff < 60 ? 'just now' : 
+                                 (timeDiff < 3600 ? `${Math.floor(timeDiff / 60)}m ago` : 
+                                 `${Math.floor(timeDiff / 3600)}h ago`);
 
                 const messageHtml = `
                     <article class="message-card" style="animation-delay: ${index * 0.05}s">
-                        <div class="message-content">
-                            <div class="message-text">
-                                ${htmlspecialchars(message.message)}
+                        <div class="message-text">
+                            ${htmlspecialchars(message.message)}
+                        </div>
+                        <div class="message-meta">
+                            <div class="sender-info">
+                                ${nameHtml}
+                                ${courseHtml}
+                                <span class="year-badge">
+                                    ${htmlspecialchars(message.year_level)}
+                                </span>
                             </div>
-                            <div class="message-meta">
-                                <div class="sender-info">
-                                    ${nameHtml}
-                                    ${courseHtml}
-                                    <span class="year-badge">
-                                        ${htmlspecialchars(message.year_level)}
-                                    </span>
-                                </div>
-                                <div class="message-time">
-                                    ${timeHtml}
-                                </div>
-                            </div>
+                            <span class="message-time">
+                                ${timeHtml}
+                            </span>
                         </div>
                     </article>`;
                 messagesContainer.insertAdjacentHTML('beforeend', messageHtml);
@@ -132,11 +131,14 @@ $count = count($messages);
         };
 
         const rotateMessages = () => {
+            if (document.hidden) return; // Don't rotate if the tab is not visible
+            
             const numMessages = allMessages.length;
             const limit = messagesPerPage();
 
             if (numMessages <= limit) {
                 renderMessages(allMessages);
+                currentIndex = 0; // Reset index
                 return;
             }
 
@@ -144,23 +146,37 @@ $count = count($messages);
             setTimeout(() => {
                 const end = currentIndex + limit;
                 let messagesToDisplay = allMessages.slice(currentIndex, end);
+                
+                // If we reach the end, loop back to the beginning to fill the remaining space
                 if (messagesToDisplay.length < limit) {
                     messagesToDisplay = messagesToDisplay.concat(allMessages.slice(0, limit - messagesToDisplay.length));
                 }
                 
                 renderMessages(messagesToDisplay);
                 messagesContainer.style.opacity = '1';
+                
+                // Move to the next page, or loop back to the start
                 currentIndex = end >= numMessages ? 0 : end;
             }, 500);
         };
 
         const fetchNewMessages = async () => {
             try {
-                const response = await fetch('api/messages.php');
+                const response = await fetch('get_messages.php');
                 const newMessages = await response.json();
-                allMessages = newMessages;
-                document.getElementById('message-count').textContent = `Displaying ${allMessages.length} Messages`;
-                rotateMessages();
+                
+
+                const hasChanged = 
+                    (allMessages.length !== newMessages.length) || 
+                    (allMessages.length > 0 && newMessages.length > 0 && allMessages[0].id !== newMessages[0].id);
+
+                if (hasChanged) {
+                    allMessages = newMessages;
+                    document.getElementById('message-count').textContent = `Displaying ${allMessages.length} Messages`;
+                    // Immediately show the first page of new messages
+                    currentIndex = 0;
+                    rotateMessages();
+                }
             } catch (error) {
                 console.error("Failed to fetch messages:", error);
             }
@@ -178,13 +194,15 @@ $count = count($messages);
         };
         
         document.addEventListener('DOMContentLoaded', () => {
-            renderMessages(allMessages.slice(0, messagesPerPage()));
-            // Fetch messages more frequently to keep it live, but rotate slower for readability
-            setInterval(fetchNewMessages, 20000); 
-            setInterval(rotateMessages, 15000);
+            rotateMessages(); // Initial render
+            // Fetch new messages every 5 seconds
+            setInterval(fetchNewMessages, 5000); 
+            // Rotate the displayed messages every 10 seconds (this can stay the same)
+            setInterval(rotateMessages, 10000);
         });
 
         window.addEventListener('resize', () => {
+            currentIndex = 0; // Reset on resize
             rotateMessages();
         });
     </script>
