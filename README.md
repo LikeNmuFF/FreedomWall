@@ -119,7 +119,6 @@ This shows how the database and the automated live display screen interact.
 
 ## 1. User Submission Algorithm
 
-This algorithm details the process a user follows to submit a message to the system.
 
 1.  **Access:** A student or user accesses the **Submission Portal**.
 2.  **Form Completion:** The user fills out a form, providing their name, year, course, and message. They also have the option to submit anonymously.
@@ -134,7 +133,6 @@ This algorithm details the process a user follows to submit a message to the sys
 
 ## 2. Admin Moderation Algorithm
 
-This algorithm outlines how an administrator reviews and manages submitted messages.
 
 1.  **Login:** An admin logs into the system using the secure **Admin Login** portal.
 2.  **Dashboard Access:** The Admin Dashboard fetches and displays all messages that have a status of **"Pending"**.
@@ -147,7 +145,7 @@ This algorithm outlines how an administrator reviews and manages submitted messa
 
 ## 3. System and Live Display Algorithm
 
-This algorithm describes how approved messages are shown on the public display and are automatically managed by the system.
+
 
 1.  **Live Display:** The Live Display screen fetches and shows messages that have an **"Approved"** status from the MySQL database.
 2.  **Display Refresh:** The display automatically refreshes every 5 seconds for new content and rotates through the messages every 10 seconds.
