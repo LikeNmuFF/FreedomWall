@@ -31,7 +31,7 @@ This path shows how a student or any general user submits a message.
 │ On Error         │  │ On Success                      │
 │                  │  │                                 │
 │ Redisplay form   │  │ Store message in Database       │
-│ with error message.│  │ with status set to "Pending".   │
+│wth error message.│  │ with status set to "Pending".   │
 └──────────────────┘  └─────────────────────────────────┘
                                      │
                                      ▼
@@ -59,7 +59,7 @@ This path shows how an administrator moderates the submitted messages.
                     │
                     ▼
 ┌────────────────────────────────────┐
-│ 2. Admin Dashboard (admin.index.php)│ ← System fetches all "Pending" messages.
+│ 2.Admin Dashboard (admin.index.php)│ ← System fetches all "Pending" messages.
 └────────────────────────────────────┘
                     │
                     ▼
@@ -114,7 +114,6 @@ This shows how the database and the automated live display screen interact.
 ```
 # Message Submission and Moderation System
 
-This repository outlines the algorithms for a message submission and moderation system. The process is divided into three main components: User Submission, Admin Moderation, and the Live Display with an automated cleanup.
 
 ***
 
@@ -154,6 +153,9 @@ This algorithm describes how approved messages are shown on the public display a
 2.  **Display Refresh:** The display automatically refreshes every 5 seconds for new content and rotates through the messages every 10 seconds.
 3.  **Auto-Cleanup Process:** The system runs an automated Auto-Cleanup process.
     * This process automatically deletes any **"Approved"** messages from the database that are older than three hours to keep the content fresh.
+
+
+
 ## 📸 Screenshots
 
 ### 🔑 Admin Approval Center
