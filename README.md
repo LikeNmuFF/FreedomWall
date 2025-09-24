@@ -112,7 +112,48 @@ This shows how the database and the automated live display screen interact.
 │ new content.                       │    Rotates pages every 10s.
 └────────────────────────────────────┘
 ```
+# Message Submission and Moderation System
 
+This repository outlines the algorithms for a message submission and moderation system. The process is divided into three main components: User Submission, Admin Moderation, and the Live Display with an automated cleanup.
+
+***
+
+## 1. User Submission Algorithm
+
+This algorithm details the process a user follows to submit a message to the system.
+
+1.  **Access:** A student or user accesses the **Submission Portal**.
+2.  **Form Completion:** The user fills out a form, providing their name, year, course, and message. They also have the option to submit anonymously.
+3.  **Validation:** The system performs an automated validation and spam check on the submission.
+    * This includes checking for character limits.
+    * A 60-second cooldown period is enforced to prevent spam.
+4.  **Error Handling:** If the submission has an error, the form is redisplayed to the user with an error message.
+5.  **Successful Submission:** If the submission is successful, the message is stored in the database with its status set to **"Pending"**.
+6.  **Confirmation:** The user sees a success message confirming that their submission is pending admin approval.
+
+***
+
+## 2. Admin Moderation Algorithm
+
+This algorithm outlines how an administrator reviews and manages submitted messages.
+
+1.  **Login:** An admin logs into the system using the secure **Admin Login** portal.
+2.  **Dashboard Access:** The Admin Dashboard fetches and displays all messages that have a status of **"Pending"**.
+3.  **Review:** The admin reviews the pending messages.
+4.  **Action:** The admin can take one of two actions for each message:
+    * **Approve:** The system updates the message's status in the database to **"Approved"**.
+    * **Delete:** The system permanently removes the message from the database.
+
+***
+
+## 3. System and Live Display Algorithm
+
+This algorithm describes how approved messages are shown on the public display and are automatically managed by the system.
+
+1.  **Live Display:** The Live Display screen fetches and shows messages that have an **"Approved"** status from the MySQL database.
+2.  **Display Refresh:** The display automatically refreshes every 5 seconds for new content and rotates through the messages every 10 seconds.
+3.  **Auto-Cleanup Process:** The system runs an automated Auto-Cleanup process.
+    * This process automatically deletes any **"Approved"** messages from the database that are older than three hours to keep the content fresh.
 ## 📸 Screenshots
 
 ### 🔑 Admin Approval Center
