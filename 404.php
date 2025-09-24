@@ -25,12 +25,13 @@
             box-sizing: border-box;
         }
 
+        /* --- Global and Body Styles --- */
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: radial-gradient(ellipse at center, #1a0f0a 0%, #0a0a0a 70%);
             color: var(--text-primary);
             min-height: 100vh;
-            display: flex;
+            display: flex; /* Using flexbox to handle the layout */
             flex-direction: column;
             overflow-x: hidden;
             position: relative;
@@ -44,7 +45,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
+            background:
                 radial-gradient(circle at 10% 20%, rgba(255, 69, 0, 0.1) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, rgba(255, 140, 66, 0.1) 0%, transparent 40%),
                 radial-gradient(circle at 40% 60%, rgba(247, 147, 30, 0.08) 0%, transparent 40%),
@@ -54,20 +55,30 @@
         }
 
         .container {
-            flex: 1;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             backdrop-filter: blur(10px);
+            justify-content: space-between; /* This spreads the header, main, and footer */
         }
 
-        .header {
+        .header, .footer {
             padding: 1.5rem 2rem;
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             position: relative;
             overflow: hidden;
+            z-index: 2; /* Ensure header and footer are above particles */
+        }
+
+        .header {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .footer {
+            border-top: 1px solid var(--border);
+            border-bottom: none;
         }
 
         .header::before {
@@ -117,13 +128,6 @@
             font-weight: 500;
         }
 
-        .footer {
-            padding: 1.5rem 2rem;
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border);
-        }
-
         .live-indicator {
             display: flex;
             align-items: center;
@@ -143,8 +147,8 @@
         }
 
         /* --- 404 Page Specific Styles --- */
-        .404-container {
-            flex-grow: 1;
+        .error-section {
+            flex-grow: 1; /* This makes the main section take up all available space */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -155,7 +159,7 @@
             position: relative;
             z-index: 2;
         }
-
+        
         /* Phoenix-themed abstract elements */
         .phoenix-elements {
             position: absolute;
@@ -229,6 +233,7 @@
             z-index: 10;
             text-shadow: 0 0 80px rgba(255, 69, 0, 0.5);
             filter: drop-shadow(0 0 20px rgba(255, 69, 0, 0.3));
+            text-align: center;
         }
 
         .error-title {
@@ -240,6 +245,7 @@
             z-index: 10;
             margin-bottom: 1rem;
             text-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
+            text-align: center;
         }
 
         .error-message {
@@ -251,6 +257,7 @@
             position: relative;
             z-index: 10;
             margin-bottom: 2rem;
+            text-align: center;
         }
 
         .back-link {
@@ -310,7 +317,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
+            background:
                 radial-gradient(circle at 25% 25%, rgba(255, 69, 0, 0.02) 0%, transparent 50%),
                 radial-gradient(circle at 75% 75%, rgba(255, 140, 66, 0.02) 0%, transparent 50%);
             z-index: 1;
@@ -335,14 +342,14 @@
         }
 
         @keyframes phoenixPulse {
-            0%, 100% { 
-                opacity: 1; 
-                transform: scale(1); 
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
                 box-shadow: 0 0 15px var(--phoenix-primary);
             }
-            50% { 
-                opacity: 0.7; 
-                transform: scale(1.2); 
+            50% {
+                opacity: 0.7;
+                transform: scale(1.2);
                 box-shadow: 0 0 25px var(--phoenix-primary);
             }
         }
@@ -353,45 +360,45 @@
         }
 
         @keyframes emberRise {
-            0% { 
-                opacity: 0; 
-                transform: translateY(0px) scale(1); 
+            0% {
+                opacity: 0;
+                transform: translateY(0px) scale(1);
             }
-            20% { 
-                opacity: 1; 
-                transform: translateY(-20px) scale(1.2); 
+            20% {
+                opacity: 1;
+                transform: translateY(-20px) scale(1.2);
             }
-            80% { 
-                opacity: 0.8; 
-                transform: translateY(-60px) scale(0.8); 
+            80% {
+                opacity: 0.8;
+                transform: translateY(-60px) scale(0.8);
             }
-            100% { 
-                opacity: 0; 
-                transform: translateY(-100px) scale(0.5); 
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(0.5);
             }
         }
 
         @keyframes phoenixGlow {
-            0% { 
-                filter: drop-shadow(0 0 20px rgba(255, 69, 0, 0.3)) brightness(1); 
+            0% {
+                filter: drop-shadow(0 0 20px rgba(255, 69, 0, 0.3)) brightness(1);
             }
-            100% { 
-                filter: drop-shadow(0 0 40px rgba(255, 69, 0, 0.5)) brightness(1.2); 
+            100% {
+                filter: drop-shadow(0 0 40px rgba(255, 69, 0, 0.5)) brightness(1.2);
             }
         }
 
         @keyframes riseFromAshes {
-            0% { 
-                opacity: 0; 
-                transform: translateY(50px) scale(0.8); 
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.8);
             }
-            70% { 
-                opacity: 0.8; 
-                transform: translateY(-10px) scale(1.05); 
+            70% {
+                opacity: 0.8;
+                transform: translateY(-10px) scale(1.05);
             }
-            100% { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
         }
 
@@ -405,7 +412,7 @@
             .error-code { font-size: 6rem; }
             .error-title { font-size: 2.5rem; }
             .error-message { font-size: 1.1rem; }
-            .404-container { gap: 2rem; padding: 2rem 1rem; }
+            .error-section { gap: 2rem; padding: 2rem 1rem; }
             .phoenix-elements { width: 400px; height: 400px; }
             .header { padding: 1rem; }
             .phoenix-title { font-size: 1.5rem; }
@@ -421,7 +428,7 @@
 </head>
 <body class="404-page">
     <div class="flame-overlay"></div>
-    
+
     <div class="container">
         <header class="header">
             <div class="header-left">
@@ -433,8 +440,7 @@
             </div>
         </header>
 
-        <main class="404-container">
-            <div class="phoenix-elements">
+        <main class="error-section"> <div class="phoenix-elements">
                 <div class="flame-ring"></div>
                 <div class="flame-ring"></div>
                 <div class="flame-ring"></div>
@@ -447,12 +453,12 @@
             <h1 class="error-code">404</h1>
             <h2 class="error-title">Rising from the Ashes</h2>
             <p class="error-message">
-                This page has been consumed by flames, but like a phoenix, we'll help you rise again. 
+                This page has been consumed by flames, but like a phoenix, we'll help you rise again.
                 Navigate back to where the fire burns bright and messages soar free.
             </p>
             <a href="index.php" class="back-link">
                 <span class="phoenix-icon">🔥</span>
-                WHERE YA'H FROM?? MARS?
+                Return to the Flame
             </a>
         </main>
 
