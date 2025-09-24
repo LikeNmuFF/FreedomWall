@@ -1,19 +1,16 @@
 <?php
-header('Content-Type: application/json');
+
+
 include("../includes/db.php");
 
-// Fetch approved messages within last 3 hours
-$sql = "SELECT student_name, year_level, course, message, is_anonymous, created_at 
-        FROM messages 
-        WHERE status = 'approved' 
-        AND created_at >= NOW() - INTERVAL 3 HOUR
-        ORDER BY created_at DESC";
-$result = $conn->query($sql);
+// Fetch all approved messages
+$result = $conn->query("SELECT * FROM messages WHERE (status='approved' OR approved=1) AND created_at >= DATE_SUB(NOW(), INTERVAL 3 HOUR) ORDER BY created_at DESC LIMIT 1000");
 
 $messages = [];
 while ($row = $result->fetch_assoc()) {
     $messages[] = $row;
 }
 
+header('Content-Type: application/json');
 echo json_encode($messages);
 ?>
