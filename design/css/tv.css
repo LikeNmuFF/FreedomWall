@@ -198,3 +198,11 @@ body {
     50% { transform: scale(1.2); }
     100% { transform: scale(1); }
 }
+.sender-name {
+    color: var(--phoenix-accent);
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 10ch; /* show up to ~10 characters */
+}

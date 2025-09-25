@@ -90,11 +90,11 @@ $result = $conn->query("SELECT * FROM messages WHERE status='pending' ORDER BY c
                                 </td>
                                 <td>
                                     <div class="d-flex gap-2">
-                                        <a href="approve.php?id=<?php echo $row['id']; ?>" 
+                                        <a href="approve?id=<?php echo $row['id']; ?>" 
                                            class="phoenix-btn phoenix-btn-success">
                                             </i>Approve
                                         </a>
-                                        <a href="delete.php?id=<?php echo $row['id']; ?>" 
+                                        <a href="delete?id=<?php echo $row['id']; ?>" 
                                            class="phoenix-btn phoenix-btn-danger" 
                                            onclick="return confirm('Are you sure you want to delete this message?')">
                                             </i>Delete
