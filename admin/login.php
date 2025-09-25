@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (password_verify($password, $hashed_password)) {
             $_SESSION['admin_id'] = $id;
-            header("Location: index.php");
+            header("Location: index");
             exit();
         } else {
             $error = "❌ Invalid password.";
