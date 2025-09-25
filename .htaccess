@@ -1,17 +1,12 @@
 
-# Turn on the rewrite engine
+
 RewriteEngine On
 
-# --- Rule 1: Hide .php extension ---
-# This rule allows users to access files without the .php extension.
-# E.g., example.com/about will load about.php
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
-# --- Rule 2: Redirect index.php to the root or a 404 page ---
-# This rule prevents direct access to index.php.
-# It matches the initial request and redirects it to the desired page.
-# Note: You can change /404.html to / to redirect to the home page instead.
+
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
 RewriteRule ^index\.php$ /404.html [R=301,L]
 ErrorDocument 404 /FREEWALLWEB/404.php
