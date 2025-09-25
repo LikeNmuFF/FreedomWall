@@ -170,3 +170,9 @@ This shows how the database and the automated live display screen interact.
 
 ### 📱 Mobile View
 ![Mobile View](UI/phone_pov.jpg)
+---
+
+<p align="center">
+  <img src="logo/basc.png" alt="school logo" height="80"/>
+  <img src="logo/cictt.png" alt="Dep logo" height="80"/>
+</p>
