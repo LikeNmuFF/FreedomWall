@@ -23,6 +23,7 @@ $count = count($messages);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../design/css/tv.css">
+    <script src="../design/js/lordicon.js"></script>
     <title>Phoenix Freedom Wall</title>
 </head>
 <body>
@@ -86,15 +87,19 @@ $count = count($messages);
         return null;
     };
 
+    /* ---------- UPDATED FUNCTION START ---------- */
     const formatTimeAgoFromMs = (ms) => {
         if (!ms || isNaN(ms)) return '—';
         const seconds = Math.floor((Date.now() - ms) / 1000);
-        if (seconds < 0) return 'just now';
-        if (seconds < 60) return 'just now';
-        if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-        if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-        return `${Math.floor(seconds / 86400)}d ago`;
+
+        if (seconds < 0) return 'just now'; // Handles clock skew (server time is ahead of client)
+        if (seconds === 0) return 'just now'; // Only show "just now" for 0 seconds
+        if (seconds < 60) return `${seconds}s ago`; // Show seconds from 1s onwards
+        if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`; // Show minutes
+        if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`; // Show hours
+        return `${Math.floor(seconds / 86400)}d ago`; // Show days
     };
+    /* ---------- UPDATED FUNCTION END ---------- */
 
     /* ---------- DOM + Data ---------- */
     const messagesContainer = document.getElementById('messages-container');
@@ -126,20 +131,32 @@ $count = count($messages);
     /* ---------- Layout helpers ---------- */
     const getLayoutConfig = () => {
         const containerWidth = messagesContainer.offsetWidth;
+        const containerHeight = messagesContainer.offsetHeight;
         const gap = 16;
         const columns = Math.max(1, Math.floor(containerWidth / (MIN_CARD_WIDTH + gap)));
         const cardWidth = `calc(${100 / columns}% - ${gap}px)`;
-        const messagesPerPage = Math.max(1, Math.floor(messagesContainer.offsetHeight / 120) * columns);
+        
+        // Calculate rows that can fit in the visible area
+        const cardHeight = 150; // Max height from CSS
+        const rows = Math.max(1, Math.floor(containerHeight / (cardHeight + gap)));
+        const messagesPerPage = rows * columns;
+        
         return { messagesPerPage, cardWidth };
     };
 
-    /* ---------- Render ---------- */
+   
     const renderMessages = (messagesToDisplay) => {
         if (!messagesToDisplay || messagesToDisplay.length === 0) {
             if (!allMessages || allMessages.length === 0) {
                 messagesContainer.innerHTML = `
                     <div class="empty-state">
-                        <div class="empty-icon"></div>
+                    <lord-icon
+                        src="../design/json/czcsywgo.json"
+                        trigger="loop"
+                        colors="primary:#911710,secondary:#eee966,tertiary:#30c9e8,quaternary:#ebe6ef,quinary:#ffc738,senary:#f9c9c0"
+
+                        style="width:250px;height:250px">
+                    </lord-icon>
                         <h2 class="empty-title">Awaiting Messages</h2>
                         <p class="empty-subtitle">Share your thoughts and watch them appear here.</p>
                     </div>`;
@@ -153,7 +170,7 @@ $count = count($messages);
         messagesToDisplay.forEach((message, index) => {
             const isAnonymous = message.is_anonymous == 1;
             const rawName = message.student_name || '';
-            const displayName = isAnonymous ? 'Anon' : truncate(rawName, 10); // max 10 chars
+            const displayName = isAnonymous ? 'Anonymous' : truncate(rawName, 15); // Increased to 15 chars for better display
             const nameTitle = htmlspecialchars(rawName);
 
             // timestamp
@@ -174,8 +191,10 @@ $count = count($messages);
                 <div class="message-text">${safeMessage}</div>
                 <div class="message-meta">
                     <div class="sender-info">
-                        ${isAnonymous ? `<span class="anonymous-badge">Anon</span>` :
-                            `<span class="sender-name" title="${nameTitle}">${htmlspecialchars(displayName)}</span>`}
+                        ${isAnonymous ? 
+                            `<span class="anonymous-badge">${displayName}</span>` :
+                            `<span class="name-badge" title="${nameTitle}">${htmlspecialchars(displayName)}</span>`
+                        }
                         <span class="course-badge">${course}</span>
                         <span class="year-badge">${year}</span>
                     </div>
@@ -252,7 +271,7 @@ $count = count($messages);
         rotateMessages();                     // show initial page
         setInterval(fetchNewMessages, 5000);  // poll for new messages
         setInterval(rotateMessages, 10000);   // rotate pages
-        setInterval(updateTimeElements, 15000); // update time ago every 15s
+        setInterval(updateTimeElements, 5000); // update time ago every 5s for more responsive seconds display
         window.addEventListener('resize', () => {
             currentIndex = 0;
             rotateMessages();

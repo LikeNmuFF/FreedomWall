@@ -124,15 +124,21 @@ body {
     align-items: center;
     gap: 0.4rem;
     overflow: hidden;
+    flex-wrap: wrap;
 }
 
-.sender-name {
-    color: var(--phoenix-accent);
+/* --- UPDATED --- Name badge styling to match other badges */
+.name-badge {
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
     font-weight: 600;
-    white-space: nowrap;
+    font-size: 0.75em;
+    background: linear-gradient(135deg, #28a745, #20c997); /* Green gradient for names */
+    color: white;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 100px;
+    white-space: nowrap;
+    max-width: 120px; /* Allow more space for names */
 }
 
 .year-badge, .anonymous-badge, .course-badge {
@@ -140,13 +146,27 @@ body {
     border-radius: 6px;
     font-weight: 600;
     font-size: 0.75em;
-    white-space: nowrap;
 }
 
-.year-badge { background: linear-gradient(45deg, var(--phoenix-secondary), var(--phoenix-accent)); color: var(--phoenix-darker); }
-.anonymous-badge { background: linear-gradient(45deg, #6c757d, #495057); color: white; }
-.course-badge { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
-.message-time { color: rgba(255, 248, 240, 0.7); white-space: nowrap; }
+.year-badge { 
+    background: linear-gradient(45deg, var(--phoenix-secondary), var(--phoenix-accent)); 
+    color: var(--phoenix-darker); 
+}
+
+.anonymous-badge { 
+    background: linear-gradient(45deg, #6c757d, #495057); 
+    color: white; 
+}
+
+.course-badge { 
+    background: linear-gradient(135deg, #667eea, #764ba2); 
+    color: white; 
+}
+
+.message-time { 
+    color: rgba(255, 248, 240, 0.7); 
+    white-space: nowrap; 
+}
 
 .empty-state {
     width: 100%;
@@ -197,12 +217,4 @@ body {
     0% { transform: scale(1); }
     50% { transform: scale(1.2); }
     100% { transform: scale(1); }
-}
-.sender-name {
-    color: var(--phoenix-accent);
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 10ch; /* show up to ~10 characters */
 }
