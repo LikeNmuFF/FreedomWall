@@ -67,6 +67,7 @@ if (isset($_SESSION['success_message'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../design/js/lordicon.js"></script>
     <title>Phoenix Message Portal</title>
     
     <style>
@@ -463,7 +464,14 @@ if (isset($_SESSION['success_message'])) {
                 <div class="phoenix-card p-4">
                     <div class="text-center mb-4">
                         <h2 style="color: var(--phoenix-accent); font-weight: 600;">
-                            🕊️
+                            <lord-icon
+                                src="../design/json/cbtlerlm.json"
+                                trigger="loop"
+                                delay="500"
+                                stroke="bold"
+                                state="hover-line"
+                                style="width:50px;height:50px">
+                            </lord-icon>
                             Share Your Voice
                         </h2>
                         <p style="color: rgba(255, 248, 240, 0.7); margin-top: 0.5rem;">
@@ -507,14 +515,15 @@ if (isset($_SESSION['success_message'])) {
                         <div class="form-group">
                             <label class="form-label">
                                 <i class="me-2">🎓</i>
-                                Year Level
+                                Role / Year Level
                             </label>
                             <select name="year" class="form-select" required>
-                                <option value="">-- Select Your Year --</option>
+                                <option value="">-- Select Your Role / Year --</option>
                                 <option <?php echo $year == '1st Year' ? 'selected' : ''; ?>>1st Year</option>
                                 <option <?php echo $year == '2nd Year' ? 'selected' : ''; ?>>2nd Year</option>
                                 <option <?php echo $year == '3rd Year' ? 'selected' : ''; ?>>3rd Year</option>
                                 <option <?php echo $year == '4th Year' ? 'selected' : ''; ?>>4th Year</option>
+                                <option <?php echo $year == 'Instructor' ? 'selected' : ''; ?>>Instructor</option>
                             </select>
                         </div>
 
