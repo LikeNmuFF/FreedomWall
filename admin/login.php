@@ -38,10 +38,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="../design/css/login_css2.css" rel="stylesheet">
     <link rel="stylesheet" href="../design/css/login.css">
     <script src="../design/js/login.js"></script>
+    <script src="../design/js/lordicon.js"></script>
 </head>
 <body>
     <div class="phoenix-card" id="loginCard">
         <div class="phoenix-title">🔥 PHOENIX 🔥</div>
+        <div class="phoenix-title">
+            <lord-icon
+                src="../design/json/fibgbafg.json"
+                trigger="loop"
+                state="loop-cycle"
+                colors="primary:#c7c116,secondary:#911710,tertiary:#c79816"
+                style="width:100px;height:100px">
+            </lord-icon>
+            </div>
         <div class="typing">Admin Login Portal</div>
 
         <?php if (isset($error)): ?>

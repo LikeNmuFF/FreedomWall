@@ -443,8 +443,8 @@ if (isset($_SESSION['success_message'])) {
             padding-right: 3rem;
         }
         .phoenix-logo {
-            width: 50%;
-            height: 50%;
+            width: 30%;
+            height: 30%;
             object-fit: contain;
         }
     </style>
@@ -467,10 +467,11 @@ if (isset($_SESSION['success_message'])) {
                             <lord-icon
                                 src="design/json/cbtlerlm.json"
                                 trigger="loop"
-                                delay="500"
-                                stroke="bold"
-                                state="hover-line"
+                                delay="1500"
+                                state="in-dynamic"
+                                colors="primary:#c79816,secondary:#c71f16,tertiary:#911710,quaternary:#ee6d66,quinary:#e83a30"
                                 style="width:50px;height:50px">
+                            </lord-icon>
                             </lord-icon>
                             Share Your Voice
                         </h2>
@@ -548,8 +549,10 @@ if (isset($_SESSION['success_message'])) {
                                     <lord-icon
                                     src="design/json/nsqneknp.json"
                                     trigger="loop"
-                                    delay="500"
+                                    delay="1000"
                                     state="morph-code"
+                                    colors="primary:#c79816,secondary:#c79816,tertiary:#c71f16,quaternary:#e83a30,quinary:#911710,senary:#f24c00"
+
                                     style="width:50px;height:50px">
                                 </lord-icon>
                                 </i>
@@ -597,8 +600,17 @@ if (isset($_SESSION['success_message'])) {
                         </div>
 
                         <button type="submit" class="phoenix-btn">
-                            <i class="me-2">🚀</i>
-                            Launch Message
+                            <i class="me-2">
+
+                            </i>
+                            <lord-icon
+                                src="design/json/gtvaxhwv.json"
+                                trigger="loop"
+                                delay="0"
+                                colors="primary:#ffffff,secondary:#911710,tertiary:#911710,quaternary:#e83a30"
+                                style="width:70px;height:70px">
+                                SEND
+                            </lord-icon>
                         </button>
                     </form>
                 </div>

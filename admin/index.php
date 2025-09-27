@@ -16,6 +16,7 @@ $result = $conn->query("SELECT * FROM messages WHERE status='pending' ORDER BY c
     <link href="../design/css/admin.index.css2.css" rel="stylesheet">
     <link rel="stylesheet" href="../design/css/_admin.css">
     <script src="../design/js/admin.js"> </script>
+    <script src="../design/js/_admin.lordicon.js"></script>
     <meta http-equiv="refresh" content="5">
     <style>
         .phoenix-logo {
@@ -40,7 +41,12 @@ $result = $conn->query("SELECT * FROM messages WHERE status='pending' ORDER BY c
                 <div class="d-flex align-items-center mb-4">
                     <span class="status-indicator"></span>
                     <h3 class="mb-0" style="color: var(--phoenix-accent); font-weight: 600;">
-                        <b>📩</b>
+                    <lord-icon
+                        src="../design/json/hwfggmas.json"
+                        trigger="loop"
+                        colors="primary:#c71f16,secondary:#e8b730"
+                        style="width:50px;height:50px">
+                    </lord-icon>
                         Pending Messages (<?php echo $result->num_rows; ?>)
                     </h3>
                 </div>
@@ -109,7 +115,14 @@ $result = $conn->query("SELECT * FROM messages WHERE status='pending' ORDER BY c
             <?php else: ?>
                 <div class="phoenix-alert">
                     <div class="phoenix-alert-content">
-                        <b class="" style="font-size: 3rem; color: var(--phoenix-accent);">📩</b>
+                        <b class="" style="font-size: 3rem; color: var(--phoenix-accent);">                   
+                    
+                    <lord-icon
+                        src="../design/json/hwfggmas.json"
+                        trigger="loop"
+                        colors="primary:#c71f16,secondary:#e8b730"
+                        style="width:250px;height:250px">
+                    </lord-icon></b>
                         <h4 style="color: var(--phoenix-light); margin-bottom: 1rem;">All Clear!</h4>
                         <p class="mb-0">No pending messages at this time. The Phoenix watches over a peaceful realm.</p>
                     </div>
@@ -125,6 +138,6 @@ $result = $conn->query("SELECT * FROM messages WHERE status='pending' ORDER BY c
     </div>
 
     <script src="../design/js/admin.bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
 </body>
 </html>
