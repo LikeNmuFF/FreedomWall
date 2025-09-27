@@ -67,7 +67,7 @@ if (isset($_SESSION['success_message'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="../design/js/lordicon.js"></script>
+    <script src="design/js/lordicon.js"></script>
     <title>Phoenix Message Portal</title>
     
     <style>
@@ -465,7 +465,7 @@ if (isset($_SESSION['success_message'])) {
                     <div class="text-center mb-4">
                         <h2 style="color: var(--phoenix-accent); font-weight: 600;">
                             <lord-icon
-                                src="../design/json/cbtlerlm.json"
+                                src="design/json/cbtlerlm.json"
                                 trigger="loop"
                                 delay="500"
                                 stroke="bold"
@@ -494,7 +494,14 @@ if (isset($_SESSION['success_message'])) {
                     <form method="POST" id="postForm">
                         <div class="form-group">
                             <label class="form-label">
-                                <i class="me-2">👤</i>
+                                <i class="me-2">
+                                    <lord-icon
+                                        src="design/json/mgfsulul.json"
+                                        trigger="loop"
+                                        colors="primary:#121331,secondary:#e8b730,tertiary:#92140c"
+                                        style="width:50px;height:50px">
+                                    </lord-icon>
+                                </i>
                                 Your Name (max 10 chars)
                             </label>
                             <input type="text" name="name" id="name" maxlength="10" 
@@ -514,7 +521,15 @@ if (isset($_SESSION['success_message'])) {
 
                         <div class="form-group">
                             <label class="form-label">
-                                <i class="me-2">🎓</i>
+                                <i class="me-2">
+                                <lord-icon
+                                src= "design/json/mwhabkof.json"
+                                trigger="loop"
+                                state="hover-wave"
+                                colors="primary:#121331,secondary:#f9c9c0,tertiary:#911710,quaternary:#b26836,quinary:#911710"
+                                style="width:50px;height:50px">
+                            </lord-icon>
+                                </i>
                                 Role / Year Level
                             </label>
                             <select name="year" class="form-select" required>
@@ -529,7 +544,15 @@ if (isset($_SESSION['success_message'])) {
 
                         <div class="form-group">
                             <label class="form-label">
-                                <i class="me-2">📚</i>
+                                <i class="me-2">
+                                    <lord-icon
+                                    src="design/json/nsqneknp.json"
+                                    trigger="loop"
+                                    delay="500"
+                                    state="morph-code"
+                                    style="width:50px;height:50px">
+                                </lord-icon>
+                                </i>
                                 Course
                             </label>
                             <select name="course" class="form-select" required>
@@ -554,7 +577,15 @@ if (isset($_SESSION['success_message'])) {
 
                         <div class="form-group">
                             <label class="form-label">
-                                <i class="me-2">💬</i>
+                                <i class="me-2">
+                                    <lord-icon
+                                        src="design/json/xpnmrymp.json"
+                                        trigger="loop"
+                                        state="morph-circle"
+                                        colors="primary:#121331,secondary:#eee966,tertiary:#911710"
+                                        style="width:50px;height:50px">
+                                    </lord-icon>
+                                </i>
                                 Your Message (max 50 chars)
                             </label>
                             <textarea name="message" id="message" rows="4" maxlength="50" 
