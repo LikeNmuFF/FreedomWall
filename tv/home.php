@@ -29,13 +29,21 @@ $count = count($messages);
 <body>
     <div class="container">
         <header class="header">
-            <div class="header-left">
-                <img src="../assets/cictt.png" alt="Phoenix Logo" class="phoenix-logo">
-                <div class="title-group">
-                    <h1 class="phoenix-title">Phoenix Freedom Wall</h1>
-                    <p class="phoenix-subtitle">Live Message Display</p>
-                </div>
+        <div class="header-left">
+            <img src="../assets/cictt.png" alt="Phoenix Logo" class="phoenix-logo">
+            <lord-icon
+                src="../design/json/sgqurkre.json"
+                trigger="loop"
+                stroke="bold"
+                colors="primary:#eeca66,secondary:#c71f16"
+                style="width:70px;height:70px">
+            </lord-icon>
+
+            <div class="title-group">
+                <h1 class="phoenix-title">Phoenix Freedom Wall</h1>
+                <p class="phoenix-subtitle">Live Message Display</p>
             </div>
+        </div>
         </header>
 
         <main id="messages-container" class="messages-container">
