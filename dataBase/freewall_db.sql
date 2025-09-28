@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 20, 2025 at 06:10 AM
+-- Generation Time: Sep 28, 2025 at 03:07 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,7 +38,6 @@ CREATE TABLE `admins` (
 --
 
 
-
 -- --------------------------------------------------------
 
 --
@@ -51,13 +50,18 @@ CREATE TABLE `messages` (
   `year` varchar(20) NOT NULL,
   `year_level` varchar(20) DEFAULT NULL,
   `course` varchar(50) NOT NULL,
-  `message` varchar(100) NOT NULL,
+  `message` varchar(200) NOT NULL,
   `anonymous` tinyint(1) DEFAULT 0,
   `is_anonymous` tinyint(1) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `approved` tinyint(1) DEFAULT 0,
   `status` enum('pending','approved','rejected') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `messages`
+--
+
 
 --
 -- Indexes for dumped tables
@@ -92,7 +96,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1137;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
