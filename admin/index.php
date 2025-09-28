@@ -120,13 +120,14 @@ $pending_count = $result->num_rows;
                 <div class="phoenix-alert">
                     <div class="phoenix-alert-content">
                         <b class="" style="font-size: 3rem; color: var(--phoenix-accent);">                   
-                        <lord-icon
-                            src="../design/json/abhwievu.json"
-                            trigger="loop"
-                            delay="2000"
-                            colors="primary:#911710,secondary:#e8e230,tertiary:#e4e4e4,quaternary:#545454"
-                            style="width:250px;height:250px">
-                        </lord-icon></b>
+                            <lord-icon
+                                src="../design/json/abhwievu.json"
+                                trigger="loop"
+                                state="hover-conversation-alt"
+                                colors="primary:#911710,secondary:#e8e230,tertiary:#e4e4e4,quaternary:#545454"
+                                style="width:250px;height:250px">
+                            </lord-icon>
+                        </b>
                         <h4 style="color: var(--phoenix-light); margin-bottom: 1rem;">All Clear!</h4>
                         <p class="mb-0">No pending messages at this time. The Phoenix watches over a peaceful realm.</p>
                     </div>
