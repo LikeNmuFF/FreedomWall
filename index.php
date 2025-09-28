@@ -33,10 +33,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = "❌ You cannot enter a name if posting anonymously.";
         } elseif (!$anonymous && empty($name)) {
             $error = "❌ Please enter your name or select anonymous.";
-        } elseif (strlen($name) > 10) {
-            $error = "❌ Name must be 10 characters or less.";
-        } elseif ($message_length > 50) {
-            $error = "❌ Message must be 50 characters or less.";
+        } elseif (strlen($name) > 110) {
+            $error = "❌ Name must be 110 characters or less.";
+        } elseif ($message_length > 200) {
+            $error = "❌ Message must be 200 characters or less.";
         } else {
             // Insert into DB
             $stmt = $conn->prepare("INSERT INTO messages (student_name, year_level, course, message, is_anonymous, created_at, approved) VALUES (?, ?, ?, ?, ?, NOW(), 0)");
@@ -590,13 +590,13 @@ if (isset($_SESSION['success_message'])) {
                                         style="width:50px;height:50px">
                                     </lord-icon>
                                 </i>
-                                Your Message (max 50 chars)
+                                Your Message (max 200 chars)
                             </label>
-                            <textarea name="message" id="message" rows="4" maxlength="50" 
+                            <textarea name="message" id="message" rows="4" maxlength="200" 
                                     class="form-control" required 
                                     placeholder="Share your thoughts, ideas, or feedback..."><?php echo htmlspecialchars($message); ?></textarea>
                             <div class="counter">
-                                <span id="msgCount">0</span>/50 characters
+                                <span id="msgCount">0</span>/200 characters
                             </div>
                         </div>
 
@@ -626,7 +626,7 @@ if (isset($_SESSION['success_message'])) {
         const messageField = document.getElementById("message");
         const msgCount = document.getElementById("msgCount");
         const form = document.getElementById("postForm");
-        const maxMessageLength = 50;
+        const maxMessageLength = 200;
 
         // Initialize character count
         msgCount.textContent = messageField.value.length;
