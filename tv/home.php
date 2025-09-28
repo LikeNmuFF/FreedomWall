@@ -79,7 +79,9 @@ $count = count($messages);
         const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
         return str.replace(/[&<>"']/g, m => map[m]);
     };
-    const truncate = (s, n) => {
+    
+    // --- UPDATED: Set default truncation length to 200 characters ---
+    const truncate = (s, n = 200) => {
         if (!s) return '';
         return s.length > n ? s.slice(0, n) + '…' : s;
     };
@@ -145,7 +147,8 @@ $count = count($messages);
         const columns = Math.max(1, Math.floor(containerWidth / (MIN_CARD_WIDTH + gap)));
         const cardWidth = `calc(${100 / columns}% - ${gap}px)`;
         
-        const cardHeight = 150; // Max height from CSS
+        // Note: The height for calculation is based on the increased content size
+        const cardHeight = 250; 
         const rows = Math.max(1, Math.floor(containerHeight / (cardHeight + gap)));
         const messagesPerPage = rows * columns;
         
@@ -178,7 +181,8 @@ $count = count($messages);
         messagesToDisplay.forEach((message, index) => {
             const isAnonymous = message.is_anonymous == 1;
             const rawName = message.student_name || '';
-            const displayName = isAnonymous ? 'Anonymous' : truncate(rawName, 15);
+            // Truncate name to 15 chars for badge, regardless of default (200)
+            const displayName = isAnonymous ? 'Anonymous' : truncate(rawName, 15); 
             const nameTitle = htmlspecialchars(rawName);
 
             // timestamp
@@ -191,7 +195,9 @@ $count = count($messages);
             card.style.animationDelay = `${index * 0.05}s`;
             card.style.flexBasis = cardWidth;
 
-            const safeMessage = htmlspecialchars(message.message || '');
+            // --- UPDATED: Truncate message content to 200 characters (default in truncate function) ---
+            const safeMessage = htmlspecialchars(truncate(message.message || ''));
+            
             const course = htmlspecialchars(message.course || '');
             const year = htmlspecialchars(message.year_level || '');
 
