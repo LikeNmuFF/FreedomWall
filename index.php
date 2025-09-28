@@ -584,6 +584,7 @@ if (isset($_SESSION['success_message'])) {
                                     <lord-icon
                                         src="design/json/xpnmrymp.json"
                                         trigger="loop"
+                                        delay="1000"
                                         state="morph-circle"
                                         colors="primary:#121331,secondary:#eee966,tertiary:#911710"
                                         style="width:50px;height:50px">

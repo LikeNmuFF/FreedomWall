@@ -3,7 +3,7 @@
 include("../includes/db.php");
 
 // Clean up messages older than 3 hours to keep content fresh
-$conn->query("DELETE FROM messages WHERE created_at < DATE_SUB(NOW(), INTERVAL 3 HOUR) AND (status='approved' OR approved=1)");
+$conn->query("DELETE FROM messages WHERE created_at < DATE_SUB(NOW(), INTERVAL 12 HOUR) AND (status='approved' OR approved=1)");
 
 // Fetch all approved messages
 $result = $conn->query("SELECT * FROM messages WHERE (status='approved' OR approved=1) AND created_at >= DATE_SUB(NOW(), INTERVAL 3 HOUR) ORDER BY created_at DESC LIMIT 1000");
@@ -54,9 +54,18 @@ $count = count($messages);
                 <span id="message-count">Displaying <?php echo $count; ?> Messages</span>
                 <span class="live-indicator">
                     <span class="live-dot"></span>
-                    LIVE
+                    <lord-icon
+                        src="https://cdn.lordicon.com/nhpxiumc.json"
+                        trigger="loop"
+                        delay="0"
+                        state="hover-watch-talk"
+                        colors="primary:#000000,secondary:#911710,tertiary:#c79816,quaternary:#3a3347"
+                        style="width:50px;height:50px">
+                    
+                    </lord-icon>
+                   
                 </span>
-                <span class="expiry-info">Auto-expire: 3h</span>
+                <span class="expiry-info">Auto-expire: 12h</span>
             </div>
         </footer>
     </div>
@@ -78,12 +87,12 @@ $count = count($messages);
     /* Try to parse several possible timestamp formats and return Date or null */
     const parseMessageTimestamp = (m) => {
         if (!m) return null;
-        // 1) created_at_utc (ISO with Z) — preferred
+       
         if (m.created_at_utc) {
             const d = new Date(m.created_at_utc);
             if (!isNaN(d)) return d;
         }
-        // 2) server `created_at` (e.g. "2025-09-20 12:34:56")
+        
         if (m.created_at) {
             // try as-is (browser may parse "YYYY-MM-DD HH:MM:SS")
             let d = new Date(m.created_at);
@@ -100,31 +109,24 @@ $count = count($messages);
         if (!ms || isNaN(ms)) return '—';
         const seconds = Math.floor((Date.now() - ms) / 1000);
 
-        if (seconds < 0) return 'just now'; // Handles clock skew (server time is ahead of client)
-        if (seconds === 0) return 'just now'; // Only show "just now" for 0 seconds
-        if (seconds < 60) return `${seconds}s ago`; // Show seconds from 1s onwards
-        if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`; // Show minutes
-        if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`; // Show hours
-        return `${Math.floor(seconds / 86400)}d ago`; // Show days
+        if (seconds < 0) return 'just now'; // Future timestamps
+        if (seconds < 60) return `${seconds}s ago`; // 0-59 seconds
+        if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`; // 1-59 minutes
+        if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`; // 1-23 hours
+        return `${Math.floor(seconds / 86400)}d ago`; // 1+ days
     };
-    /* ---------- UPDATED FUNCTION END ---------- */
-
-    /* ---------- DOM + Data ---------- */
     const messagesContainer = document.getElementById('messages-container');
     let allMessages = <?php echo json_encode($messages); ?> || [];
     let currentIndex = 0;
     const MIN_CARD_WIDTH = 240; 
 
-    /* Ensure initial server messages have created_at_utc (they do in your PHP, but we normalize anyway) */
     const normalizeMessages = (arr) => {
         return arr.map(m => {
-            // keep as-is if created_at_utc present & valid
             if (!m.created_at_utc) {
                 const d = parseMessageTimestamp(m);
                 if (d) m.created_at_utc = d.toISOString();
                 else m.created_at_utc = null;
             } else {
-                // ensure it's parseable; if not, try fallback
                 const d = new Date(m.created_at_utc);
                 if (isNaN(d)) {
                     const d2 = parseMessageTimestamp(m);
@@ -136,7 +138,6 @@ $count = count($messages);
     };
     allMessages = normalizeMessages(allMessages);
 
-    /* ---------- Layout helpers ---------- */
     const getLayoutConfig = () => {
         const containerWidth = messagesContainer.offsetWidth;
         const containerHeight = messagesContainer.offsetHeight;
@@ -144,7 +145,6 @@ $count = count($messages);
         const columns = Math.max(1, Math.floor(containerWidth / (MIN_CARD_WIDTH + gap)));
         const cardWidth = `calc(${100 / columns}% - ${gap}px)`;
         
-        // Calculate rows that can fit in the visible area
         const cardHeight = 150; // Max height from CSS
         const rows = Math.max(1, Math.floor(containerHeight / (cardHeight + gap)));
         const messagesPerPage = rows * columns;
@@ -178,7 +178,7 @@ $count = count($messages);
         messagesToDisplay.forEach((message, index) => {
             const isAnonymous = message.is_anonymous == 1;
             const rawName = message.student_name || '';
-            const displayName = isAnonymous ? 'Anonymous' : truncate(rawName, 15); // Increased to 15 chars for better display
+            const displayName = isAnonymous ? 'Anonymous' : truncate(rawName, 15);
             const nameTitle = htmlspecialchars(rawName);
 
             // timestamp
@@ -212,7 +212,6 @@ $count = count($messages);
             messagesContainer.appendChild(card);
         });
 
-        // run a time update right away (ensures seconds tick)
         updateTimeElements();
     };
 
