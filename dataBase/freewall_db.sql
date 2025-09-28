@@ -37,8 +37,7 @@ CREATE TABLE `admins` (
 -- Dumping data for table `admins`
 --
 
-INSERT INTO `admins` (`id`, `username`, `password`) VALUES
-(5, 'admin', '$2y$10$kWxUUKPT6euQpWeqjaRoAemgvDDqH98vPoN.xhn7ioLQzdWflUcLq');
+
 
 -- --------------------------------------------------------
 
