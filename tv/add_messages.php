@@ -3,7 +3,7 @@
 include("../includes/db.php");
 
 // Set the number of messages to add
-$num_messages = 50;
+$num_messages = 400;
 $messages_added = 0;
 
 echo "<h2>Adding $num_messages new messages...</h2>";
@@ -40,7 +40,7 @@ try {
     // Commit the transaction
     $conn->commit();
     echo "<p>✅ Successfully added $messages_added messages to the database.</p>";
-    echo "<p>Now, open your <a href='index.php'>index.php</a> page to see the messages appear on the TV display.</p>";
+    echo "<p>Now, open your <a href='index.php'>home</a> page to see the messages appear on the TV display.</p>";
 
 } catch (Exception $e) {
     // Rollback the transaction on error
