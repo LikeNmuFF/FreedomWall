@@ -1,9 +1,14 @@
 <?php
+// PHP SCRIPT START
 include("../includes/auth.php"); // protect page
 include("../includes/db.php");
 
 // Fetch pending messages
 $result = $conn->query("SELECT * FROM messages WHERE status='pending' ORDER BY created_at DESC");
+
+// Fetch the number of rows for the dynamic count in the header
+$pending_count = $result->num_rows;
+// PHP SCRIPT END
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +22,6 @@ $result = $conn->query("SELECT * FROM messages WHERE status='pending' ORDER BY c
     <link rel="stylesheet" href="../design/css/_admin.css">
     <script src="../design/js/admin.js"> </script>
     <script src="../design/js/_admin.lordicon.js"></script>
-    <meta http-equiv="refresh" content="5">
     <style>
         .phoenix-logo {
             width: 10%;
@@ -36,8 +40,8 @@ $result = $conn->query("SELECT * FROM messages WHERE status='pending' ORDER BY c
             <p class="phoenix-subtitle">Admin Approval Center</p>
         </div>
 
-        <div class="phoenix-card p-4">
-            <?php if ($result->num_rows > 0): ?>
+        <div id="refreshable-content" class="phoenix-card p-4">
+            <?php if ($pending_count > 0): ?>
                 <div class="d-flex align-items-center mb-4">
                     <span class="status-indicator"></span>
                     <h3 class="mb-0" style="color: var(--phoenix-accent); font-weight: 600;">
@@ -47,7 +51,7 @@ $result = $conn->query("SELECT * FROM messages WHERE status='pending' ORDER BY c
                         colors="primary:#c71f16,secondary:#e8b730"
                         style="width:50px;height:50px">
                     </lord-icon>
-                        Pending Messages (<?php echo $result->num_rows; ?>)
+                        Pending Messages (<?php echo $pending_count; ?>)
                     </h3>
                 </div>
                 
@@ -116,13 +120,13 @@ $result = $conn->query("SELECT * FROM messages WHERE status='pending' ORDER BY c
                 <div class="phoenix-alert">
                     <div class="phoenix-alert-content">
                         <b class="" style="font-size: 3rem; color: var(--phoenix-accent);">                   
-                    
-                    <lord-icon
-                        src="../design/json/hwfggmas.json"
-                        trigger="loop"
-                        colors="primary:#c71f16,secondary:#e8b730"
-                        style="width:250px;height:250px">
-                    </lord-icon></b>
+                        <lord-icon
+                            src="../design/json/abhwievu.json"
+                            trigger="loop"
+                            delay="2000"
+                            colors="primary:#911710,secondary:#e8e230,tertiary:#e4e4e4,quaternary:#545454"
+                            style="width:250px;height:250px">
+                        </lord-icon></b>
                         <h4 style="color: var(--phoenix-light); margin-bottom: 1rem;">All Clear!</h4>
                         <p class="mb-0">No pending messages at this time. The Phoenix watches over a peaceful realm.</p>
                     </div>
@@ -139,5 +143,43 @@ $result = $conn->query("SELECT * FROM messages WHERE status='pending' ORDER BY c
 
     <script src="../design/js/admin.bootstrap.bundle.min.js"></script>
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+    <script>
+        const refreshableContent = document.getElementById('refreshable-content');
+        const FETCH_INTERVAL = 5000; // 5 seconds
+
+        const fetchAndUpdateMessages = async () => {
+            try {
+                // Fetch the current page content from the server
+                const response = await fetch(window.location.href);
+                const html = await response.text();
+
+                // 1. Parse the new HTML content
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // 2. Extract the content of the refreshable-content div from the new document
+                const newContentElement = doc.getElementById('refreshable-content');
+
+                if (newContentElement && refreshableContent) {
+                    // 3. Smoothly replace the current content with the new content
+                    refreshableContent.style.opacity = 0;
+                    setTimeout(() => {
+                        refreshableContent.innerHTML = newContentElement.innerHTML;
+                        refreshableContent.style.opacity = 1;
+                    }, 200); // Wait for a brief fade-out before changing content
+                }
+
+            } catch (error) {
+                console.error("Error fetching new messages:", error);
+                // Optionally show an error to the user
+            }
+        };
+
+        // Start the polling interval
+        document.addEventListener('DOMContentLoaded', () => {
+            setInterval(fetchAndUpdateMessages, FETCH_INTERVAL);
+        });
+    </script>
 </body>
 </html>
