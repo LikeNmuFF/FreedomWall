@@ -1,21 +1,19 @@
 <?php
-// PHP SCRIPT START
 include("../includes/db.php");
 
-// Clean up messages older than 3 hours to keep content fresh
+// Clean up messages paghuman sa 3 hours for cleanliness
 $conn->query("DELETE FROM messages WHERE created_at < DATE_SUB(NOW(), INTERVAL 12 HOUR) AND (status='approved' OR approved=1)");
 
 // Fetch all approved messages
 $result = $conn->query("SELECT * FROM messages WHERE (status='approved' OR approved=1) AND created_at >= DATE_SUB(NOW(), INTERVAL 3 HOUR) ORDER BY created_at DESC LIMIT 1000");
 $messages = [];
 while ($row = $result->fetch_assoc()) {
-    // **CHANGED**: Add a universal (UTC) timestamp for the browser to use
     $row['created_at_utc'] = gmdate('Y-m-d\TH:i:s\Z', strtotime($row['created_at']));
     $messages[] = $row;
 }
 
 $count = count($messages);
-// PHP SCRIPT END
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +39,8 @@ $count = count($messages);
 
             <div class="title-group">
                 <h1 class="phoenix-title">Phoenix Freedom Wall</h1>
-                <p class="phoenix-subtitle">Live Message Display</p>
+                    Share your thoughts anonymously or with your name.
+                </p>
             </div>
         </div>
         </header>
@@ -66,6 +65,20 @@ $count = count($messages);
                    
                 </span>
                 <span class="expiry-info">Auto-expire: 12h</span>
+                <span class="footer-credit">
+                    <lord-icon
+                        src="../design/json/xowsaqcr.json"
+                        trigger="loop"
+                        state="hover-draw"
+                        colors="primary:#000000,secondary:#c7c116,tertiary:#911710"
+                        style="width:30px;height:30px">
+                    </lord-icon>
+                    <img src="../assets/exe-coun.png" alt="Phoenix Logo" class="execoun-logo">
+                    CICTT Executive Council - Basilan State College 
+                    <img src="../assets/bitXus.png" alt="Phoenix Logo" class="bitxus-logo">
+                    BitXus Publication
+                </span>
+                
             </div>
         </footer>
     </div>
